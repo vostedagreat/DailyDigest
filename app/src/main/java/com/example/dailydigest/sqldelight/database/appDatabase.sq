@@ -1,0 +1,17 @@
+import kotlin.Boolean;
+
+CREATE TABLE ActivityEntity(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      description TEXT,
+      createdAt TEXT,
+      image TEXT,
+      type TEXT NOT NULL
+);
+
+insertActivity:
+INSERT OR REPLACE INTO ActivityEntity (id,type,description,createdAt,image)
+VALUES (?,?,?,?,?);
+
+
+selectTasks:
+SELECT  * FROM ActivityEntity;

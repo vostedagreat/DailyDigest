@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS ActivityEntity(
+         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+         description TEXT,
+         createdAt TEXT,
+         image TEXT,
+         type TEXT NOT NULL
+);
