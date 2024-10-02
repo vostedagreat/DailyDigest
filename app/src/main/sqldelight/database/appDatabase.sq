@@ -1,0 +1,23 @@
+import kotlin.Boolean;
+
+--Table Categories
+
+CREATE TABLE NewsEntity(
+      author TEXT,
+      title TEXT NOT NULL,
+      description TEXT,
+      publishedAt TEXT NOT NULL,
+      source TEXT NOT NULL,
+      sourceId TEXT,
+      urlToImage TEXT,
+      url TEXT NOT NULL,
+      content TEXT
+);
+
+insertNews:
+INSERT OR REPLACE INTO NewsEntity (author, title, description, publishedAt, source, sourceId, urlToImage, url, content)
+VALUES (?,?,?,?,?,?,?,?,?);
+
+selectNews:
+SELECT * FROM NewsEntity;
+

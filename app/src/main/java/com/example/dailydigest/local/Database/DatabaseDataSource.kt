@@ -1,9 +1,9 @@
-package com.example.dailydigest
+package com.example.dailydigest.local.Database
 
 import com.example.dailydigest.dto.Articles
 import kotlinx.coroutines.flow.Flow
 
 interface DatabaseDataSource {
-    suspend fun saveNews(tasks: List<Articles>)
+    suspend fun saveNews(articles: List<Articles>)
     suspend fun getNews(): Flow<List<Articles>>
 }

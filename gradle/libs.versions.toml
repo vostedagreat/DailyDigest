@@ -18,7 +18,6 @@ voyagerVersion = "1.1.0-beta02"
 composeBom = "2024.09.01"
 navigationCommonKtx = "2.8.0"
 playServicesDtdi = "16.0.0-beta01"
-retrofit = "2.9.0"
 sqlDelight = "2.0.2"
 supportAnnotations = "28.0.0"
 firebaseCrashlyticsBuildtools = "3.0.2"
@@ -26,6 +25,7 @@ annotation = "1.8.2"
 transportRuntime = "3.3.0"
 protoliteWellKnownTypes = "18.0.0"
 ktor-client = "2.3.11"
+composeMaterial = "1.4.0"
 
 [libraries]
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
@@ -55,7 +55,6 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
 play-services-dtdi = { group = "com.google.android.gms", name = "play-services-dtdi", version.ref = "playServicesDtdi" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 support-annotations = { group = "com.android.support", name = "support-annotations", version.ref = "supportAnnotations" }
 
 
@@ -67,17 +66,19 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-client" }
 
 #Sqldelight
+
 sqlDelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
 sqlDelight-coroutine = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 sqlDelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
-sqlDelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
-sqlDelight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions", version.ref = "sqlDelight" }
+
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 transport-runtime = { group = "com.google.android.datatransport", name = "transport-runtime", version.ref = "transportRuntime" }
 protolite-well-known-types = { group = "com.google.firebase", name = "protolite-well-known-types", version.ref = "protoliteWellKnownTypes" }
+androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
 
 [plugins]
+sqlDelight-plugin = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinX-serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

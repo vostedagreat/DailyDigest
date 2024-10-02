@@ -2,6 +2,7 @@ plugins {
 
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.sqlDelight.plugin)
     alias(libs.plugins.kotlinX.serialization.plugin)
 }
 
@@ -11,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.dailydigest"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -49,10 +50,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
-dependencies {
 
+
+dependencies {
+    implementation(libs.androidx.activity.compose)
     implementation(libs.coil.compose.v220)
     implementation(libs.coil.kt.coil.compose)
     implementation(libs.androidx.core.ktx)
@@ -81,6 +85,18 @@ dependencies {
     implementation(libs.voyager.transitions)
     implementation(libs.voyager.tab.navigator)
 
+    //sql delight
+    implementation(libs.sqlDelight.runtime)
+    implementation(libs.sqlDelight.coroutine)
+    implementation(libs.sqlDelight.android)
+    implementation(libs.kotlinX.dateTime)
+    implementation(libs.sqlDelight.android)
+
+    //compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
 
     //ktor
     implementation(libs.ktor.client.core)
@@ -89,6 +105,8 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.client.encoding)
     implementation(libs.ktor.client.okhttp)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.annotation)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -97,4 +115,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.example.dailydigest")
+        }
+    }
 }
