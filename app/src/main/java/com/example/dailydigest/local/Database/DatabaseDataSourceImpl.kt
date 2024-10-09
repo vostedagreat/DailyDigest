@@ -2,6 +2,7 @@ package com.example.dailydigest.local.Database
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOne
 import com.example.dailydigest.AppDatabase
 import com.example.dailydigest.dto.Articles
 import com.example.dailydigest.dto.Source
@@ -35,6 +36,7 @@ class DatabaseDataSourceImpl(private val appDatabase: AppDatabase) : DatabaseDat
             .map { newsEntities ->
                 newsEntities.map { article ->
                     Articles(
+                        id = article.id,
                         author = article.author,
                         title = article.title,
                         description = article.description,
@@ -49,6 +51,29 @@ class DatabaseDataSourceImpl(private val appDatabase: AppDatabase) : DatabaseDat
                     )
                 }
             }.flowOn(Dispatchers.Main)
+    }
+
+    override suspend fun getArticle(id: Long): Flow<Articles> {
+        println("article is: $id")
+        return queries.selectArticle(id)
+            .asFlow()
+            .mapToOne(Dispatchers.IO)
+            .map{ article->
+                Articles(
+                    id = article.id,
+                    author = article.author,
+                    title = article.title,
+                    description = article.description,
+                    publishedAt = article.publishedAt,
+                    urlToImage = article.urlToImage,
+                    url = article.url,
+                    content = article.content,
+                    source = Source(
+                        id = article.sourceId,
+                        name = article.source
+                    )
+                )
+            }
     }
 
 }

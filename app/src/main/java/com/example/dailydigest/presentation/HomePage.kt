@@ -65,11 +65,12 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Daily Digest") },
+                title = {
+                    Text("Daily Digest")
+                        },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = LightBlue ,
-
-                    )
+                    containerColor = LightBlue
+                )
             )
         },
     ) { padding ->
@@ -81,7 +82,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(25.dp))
+                    CircularProgressIndicator(modifier = Modifier.size(35.dp))
                 }
             }
 
@@ -130,7 +131,6 @@ fun NewsListView(news: List<Articles>, modifier: Modifier = Modifier) {
 
 @Composable
 fun NewsCard(news: Articles) {
-    val newsViewModel: NewsViewModel = koinInject()
     val navigator = LocalNavigator.currentOrThrow
     println("description "+news.description)
 
@@ -142,7 +142,7 @@ fun NewsCard(news: Articles) {
             .padding(8.dp)
 
             .clickable {
-                navigator.push(NewsPage(news))
+                news.id?.let {  navigator.push(NewsPage(it)) }
             }
 
     ) {

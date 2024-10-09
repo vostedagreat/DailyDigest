@@ -29,6 +29,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,14 +53,24 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.dailydigest.dto.Articles
 import com.example.dailydigest.ui.theme.LightBlue
 import com.example.dailydigest.ui.theme.Orange
+import com.example.dailydigest.viewmodels.NewsViewModel
+import domain.models.ResultStatus
+import org.koin.compose.koinInject
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-data class NewsPage(val article: Articles) : Screen {
+data class NewsPage(val id: Long) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val newsViewModel: NewsViewModel = koinInject()
+        val articleState = newsViewModel.getArticleState.collectAsState().value
+
+
+        LaunchedEffect (id) {
+            newsViewModel.getArticle(id)
+        }
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -77,7 +89,39 @@ data class NewsPage(val article: Articles) : Screen {
                 )
             }
         ) { padding ->
-            NewsScreen(modifier = Modifier.padding(padding), article)
+            when(articleState.status){
+                ResultStatus.INITIAL,
+                ResultStatus.LOADING -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.size(35.dp))
+                    }
+                }
+
+                ResultStatus.SUCCESS -> {
+                    if (articleState.data == null){
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ){
+                            Text("Article is not available at the moment")
+                        }
+                    }else {
+                        NewsScreen(modifier = Modifier.padding(padding), articleState.data)
+                    }
+                }
+                ResultStatus.ERROR -> {
+                    Box(
+                      modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text("Something is Wrong")
+                    }
+                }
+            }
+
         }
     }
 }

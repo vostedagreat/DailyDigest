@@ -3,8 +3,9 @@ import kotlin.Boolean;
 --Table Categories
 
 CREATE TABLE NewsEntity(
+      id INTEGER PRIMARY KEY AUTOINCREMENT ,
       author TEXT,
-      title TEXT NOT NULL,
+      title TEXT NOT NULL UNIQUE,
       description TEXT,
       publishedAt TEXT NOT NULL,
       source TEXT NOT NULL,
@@ -20,4 +21,7 @@ VALUES (?,?,?,?,?,?,?,?,?);
 
 selectNews:
 SELECT * FROM NewsEntity;
+
+selectArticle:
+SELECT * FROM NewsEntity WHERE id = ? LIMIT 1;
 
