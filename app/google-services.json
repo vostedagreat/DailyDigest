@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "76889430272",
+    "project_id": "dailydigest-dae4f",
+    "storage_bucket": "dailydigest-dae4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76889430272:android:1ee51f89037924670f7be5",
+        "android_client_info": {
+          "package_name": "com.example.dailydigest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxMDcZyJGTGSADhLcsVqT2HOpgRAKQVjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

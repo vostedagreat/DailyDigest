@@ -4,5 +4,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.kotlinX.serialization.plugin) apply false
     alias(libs.plugins.sqlDelight.plugin) apply false
+    alias(libs.plugins.google.gms.google.services) apply false
 
 }

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.sqlDelight.plugin)
     alias(libs.plugins.kotlinX.serialization.plugin)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -107,6 +108,7 @@ dependencies {
     implementation(libs.ktor.client.okhttp)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.annotation)
+    implementation(libs.firebase.auth)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
