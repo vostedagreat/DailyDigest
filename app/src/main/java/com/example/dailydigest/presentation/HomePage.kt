@@ -18,11 +18,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -58,6 +60,7 @@ class HomePage : Screen {
 fun HomeScreen(modifier: Modifier = Modifier) {
     val newsViewModel = koinInject<NewsViewModel>()
     val newsState = newsViewModel.getNewsState.collectAsState().value
+    val navigator = LocalNavigator.currentOrThrow
 
     LaunchedEffect(true) {
         newsViewModel.fetchNews()
@@ -68,6 +71,11 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 title = {
                     Text("Daily Digest")
                         },
+                actions = {
+                    IconButton(onClick = { navigator.push(SearchNewsPage()) }) {
+                        Icon(imageVector = Icons.Default.Search, contentDescription = "Search" )
+                    }
+                },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = LightBlue
                 )
@@ -112,6 +120,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     Text(text = newsState.message ?: "Something went wrong")
                 }
             }
+
+            ResultStatus.UNAUTHENTICATED -> TODO()
         }
     }
 }
@@ -120,7 +130,7 @@ fun NewsListView(news: List<Articles>, modifier: Modifier = Modifier) {
 
     LazyColumn(
         modifier = modifier
-            .padding(horizontal = 8.dp, 4.dp)
+            .padding(horizontal = 8.dp)
             .fillMaxSize()
     ) {
         items(news) {
@@ -142,7 +152,7 @@ fun NewsCard(news: Articles) {
             .padding(8.dp)
 
             .clickable {
-                news.id?.let {  navigator.push(NewsPage(it)) }
+                news.id?.let { navigator.push(NewsPage(it)) }
             }
 
     ) {

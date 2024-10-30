@@ -6,6 +6,7 @@ import app.cash.sqldelight.coroutines.mapToOne
 import com.example.dailydigest.AppDatabase
 import com.example.dailydigest.dto.Articles
 import com.example.dailydigest.dto.Source
+import com.example.dailydigest.models.toArticle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -35,20 +36,7 @@ class DatabaseDataSourceImpl(private val appDatabase: AppDatabase) : DatabaseDat
             .mapToList(Dispatchers.IO)
             .map { newsEntities ->
                 newsEntities.map { article ->
-                    Articles(
-                        id = article.id,
-                        author = article.author,
-                        title = article.title,
-                        description = article.description,
-                        publishedAt = article.publishedAt,
-                        urlToImage = article.urlToImage,
-                        url = article.url,
-                        content = article.content,
-                        source = Source(
-                            id = article.sourceId,
-                            name = article.source
-                        )
-                    )
+                   article.toArticle()
                 }
             }.flowOn(Dispatchers.Main)
     }
@@ -59,21 +47,15 @@ class DatabaseDataSourceImpl(private val appDatabase: AppDatabase) : DatabaseDat
             .asFlow()
             .mapToOne(Dispatchers.IO)
             .map{ article->
-                Articles(
-                    id = article.id,
-                    author = article.author,
-                    title = article.title,
-                    description = article.description,
-                    publishedAt = article.publishedAt,
-                    urlToImage = article.urlToImage,
-                    url = article.url,
-                    content = article.content,
-                    source = Source(
-                        id = article.sourceId,
-                        name = article.source
-                    )
-                )
+                article.toArticle()
             }
     }
 
+
+    override suspend fun searchNews(searchTerm: String): List<Articles> {
+        val articles = queries.searchArticle(searchTerm).executeAsList()
+        return  articles.map { article->
+            article.toArticle()
+        }
+    }
 }

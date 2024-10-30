@@ -25,3 +25,8 @@ SELECT * FROM NewsEntity;
 selectArticle:
 SELECT * FROM NewsEntity WHERE id = ? LIMIT 1;
 
+searchArticle:
+SELECT * FROM NewsEntity
+WHERE title LIKE '%' || :searchTerm || '%' OR description LIKE '%' || :searchTerm || '%' OR  author LIKE '%' || :searchTerm || '%'
+ORDER BY title ASC;
+
