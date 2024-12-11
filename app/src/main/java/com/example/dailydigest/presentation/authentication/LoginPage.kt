@@ -1,6 +1,5 @@
 package com.example.dailydigest.presentation.authentication
 
-import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.font.FontWeight.Companion.Normal
@@ -35,7 +33,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.preference.PreferenceManager
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
@@ -52,52 +49,30 @@ import com.example.dailydigest.viewmodels.AuthenticationViewModel
 import domain.models.ResultStatus
 import org.koin.compose.koinInject
 
+
+// ...
 class LoginPage : Screen {
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val context = LocalContext.current
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val authenticationViewModel = koinInject<AuthenticationViewModel>()
-
-        // Check for stored credentials
-        val username = sharedPreferences.getString("username", null)
-        val password = sharedPreferences.getString("password", null)
-        var isAutoLoginAttempted by remember { mutableStateOf(false) }
-
-        if (username != null && password != null && !isAutoLoginAttempted) {
-            LaunchedEffect(Unit) {
-                isAutoLoginAttempted = true
-                authenticationViewModel.onEvent(RegistrationFormEvent.OnLogin)
-            }
-        } else {
-            LoginScreen(modifier = Modifier)
-        }
+        LoginScreen(modifier = Modifier)
     }
-
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier) {
     val navigator = LocalNavigator.currentOrThrow
+    val identifier by remember { mutableStateOf("") } // Updated to be generic
+    var password by rememberSaveable { mutableStateOf("") }
+    var rememberMe by remember { mutableStateOf(true) }
+    var passwordVisible by remember { mutableStateOf(false) }
     val authenticationViewModel = koinInject<AuthenticationViewModel>()
     val loginState by authenticationViewModel.loginState.collectAsStateWithLifecycle()
     val pageState = authenticationViewModel.state
-    val context = LocalContext.current
-    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-    var passwordVisible by remember { mutableStateOf(false) }
-
-    // Handle auto-saving credentials on successful login
     LaunchedEffect(loginState.status) {
         if (loginState.status == ResultStatus.SUCCESS) {
             navigator.replaceAll(HomePage())
-            val editor = sharedPreferences.edit()
-            editor.putString("username", pageState.email) // Assuming email is used as username
-            editor.putString("password", pageState.password) // Consider hashing the password
-            editor.apply()
         }
     }
-
     Scaffold {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -126,15 +101,12 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
-
             item {
                 AppTextField(
                     value = pageState.email,
                     placeholder = "Email or Phone Number",
                     error = pageState.emailError,
-                    onValueChanged = {
-                        authenticationViewModel.onEvent(RegistrationFormEvent.EmailChanged(it))
-                    },
+                    onValueChanged = {authenticationViewModel.onEvent(RegistrationFormEvent.EmailChanged(it))},
                     keyboardType = KeyboardType.Text,
                     modifier = Modifier
                 )
@@ -142,9 +114,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             item {
                 AppTextField(
                     value = pageState.password,
-                    onValueChanged = {
-                        authenticationViewModel.onEvent(RegistrationFormEvent.PasswordChanged(it))
-                    },
+                    onValueChanged = { authenticationViewModel.onEvent(RegistrationFormEvent.PasswordChanged(it)) },
                     error = pageState.passwordError,
                     placeholder = "Enter your Password",
                     keyboardType = KeyboardType.Password,
@@ -171,7 +141,6 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
-
                 AppButton(
                     modifier = Modifier
                         .padding(vertical = 8.dp)
@@ -190,7 +159,6 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                                 color = Color.White
                             )
                         }
-
                         ResultStatus.LOADING -> {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -211,17 +179,19 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                 }
                 Text(
                     modifier = Modifier.clickable(
-                        interactionSource = remember { MutableInteractionSource() },
+                        interactionSource = remember {
+                            MutableInteractionSource()
+                        },
                         indication = null,
                         onClick = {
-                            // navigator.push(ForgotPasswordScreen())
+// navigator.push(ForgotPasswordScreen())
                         }
                     ),
                     text = "Forgotten Password?",
                     color = Color.Black,
                     fontWeight = Bold,
                     style = MaterialTheme.typography.bodyMedium,
-                )
+                    )
                 Spacer(modifier = Modifier.height(65.dp))
                 AppButtonInv(
                     modifier = Modifier
@@ -240,5 +210,4 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             }
         }
     }
-}
 }
