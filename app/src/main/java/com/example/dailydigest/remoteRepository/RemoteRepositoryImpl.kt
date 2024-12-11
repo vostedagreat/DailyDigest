@@ -1,6 +1,8 @@
 package com.example.dailydigest.remoteRepository
 
 import Utils.Utils.Companion.decodeExceptionMessage
+import android.preference.Preference
+import android.preference.PreferenceManager
 import com.example.dailydigest.dto.ErrorDTO
 import com.example.dailydigest.dto.NewsDTO
 import com.example.dailydigest.remote.network.ApiHelper
@@ -37,4 +39,45 @@ class RemoteRepositoryImpl (
         }.flowOn(Dispatchers.Default)
     }
 
+
+//    override fun saveAccessToken(token: String) {
+//        preferenceManager.setString(key = PreferenceManager.AUTHENTICATION_TOKEN, value = token)
+//    }
+//
+//    override fun saveUserName(username: String) {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun saveUserEmail(email: String) {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun saveUserPhoneNumber(phone: String) {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun saveUserID(id: Long) {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun getAccessToken(): Flow<String?> {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun getUsername(): Flow<String?> {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun getUserEmail(): Flow<String?> {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun getUserPhoneNumber(): Flow<String?> {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun getUserID(): Flow<Int?> {
+//        TODO("Not yet implemented")
+//    }
+//
 }

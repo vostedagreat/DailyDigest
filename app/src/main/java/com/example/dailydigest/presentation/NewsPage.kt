@@ -77,6 +77,7 @@ data class NewsPage(val id: Long) : Screen {
         LaunchedEffect (id) {
             newsViewModel.getArticle(id)
         }
+
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.tooling.preview.Preview
 import cafe.adriel.voyager.navigator.Navigator
+import com.example.dailydigest.presentation.authentication.LoginPage
 import com.example.dailydigest.ui.theme.DailyDigestTheme
 
 
@@ -18,7 +19,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DailyDigestTheme {
-                Navigator(HomePage())
+                Navigator(LoginPage())
             }
         }
     }

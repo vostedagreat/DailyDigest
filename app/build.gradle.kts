@@ -75,10 +75,18 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.koin.core)
     implementation(libs.kotlinX.dateTime)
-    implementation(libs.firebase.crashlytics.buildtools)
     implementation (libs.converter.gson)
     implementation(libs.transport.runtime)
     implementation(libs.protolite.well.known.types)
+    implementation(libs.androidx.preference.ktx)
+    //firebase
+    platform(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.google.firebase.analytics)
+    implementation(libs.google.firebase.auth)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics.buildtools)
 
     //navigation
     implementation(libs.voyager.navigator)
@@ -108,7 +116,6 @@ dependencies {
     implementation(libs.ktor.client.okhttp)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.annotation)
-    implementation(libs.firebase.auth)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -118,6 +125,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
 
 sqldelight {
     databases {
